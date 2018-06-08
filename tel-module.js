@@ -1,67 +1,51 @@
 // console.log("Script loaded");
 
-var urlResult;
-var textResult;
-var arrayResult = [];
-
-var temp = [];
-
 // Get the url of the current page
 var currentLocation = window.location.pathname;
 
-// Locations object
+// Object met propertys, en de nummers als values
 var checkLocationNumb = {
-  location: ["alkmaar", "amstelveen", "Dordrecht", "Groningen"],
-  number: ["072514558", "0725144658", "0725132658"]
+    amsterdam: "020-2149692",
+    groningen: "050-2003034",
+    haag: "070-2002078",
+    haarlem: "023-2001054",
+    eindhoven: "040-2092053",
+    bosch: "073-2001059",
+    heerlen: "045-2078032",
+    apeldoorn: "055-2002026",
+    maastricht: "043-2003022",
+    rotterdam: "010-2004073",
+    utrecht: "030-2006128",
+    enschede: "053-2005015",
+    almere: "036-7600712",
+    nijmegen: "024-2001027",
+    tilburg: "013-2070181",
+    dordrecht: "078-2001032",
+    amersfoort: "033-2007051",
+    arnhem: "026-2001038",
+    breda: "076-2005043",
+    venlo: "077-2061056"
 };
 
-// Loopt door de Object arrays heen, en geeft de waarde terug aan arrayResult
+// Pak alle property's in het object
+for (property in checkLocationNumb) {
+    // Kijkt of het object de property heeft, en als ja kijk of de url met deze property overeenkomt
+    if (checkLocationNumb.hasOwnProperty(property)) {
+         if (window.location.href.includes(property)) {
+             console.log("your url contains the string "+property);
+             changeTheNumb(property);
+         }
+    }
+}
 
-function arrayLoop() {
-          for(var i=0; i < checkLocationNumb.location.length; i++) {
-            temp = checkLocationNumb.location[i]; // Slaat 1 waarde op
-            console.log(temp + "TEMP" ); // log 4 times
-            arrayResult.push(temp); // Push elke item in de array
-            console.log(arrayResult);
-          };
-        // return arrayResult;
-  }
-arrayLoop();
-
-// Slaat het resultaat op om te vergelijken
-var locationConfirm = arrayResult;
-
-  // Looped door location array heen, en checked voor elk item. Als hij true is sla deze waarde op in urlResult En voer vergelijk functie uit.
-  for (var i=0; i < checkLocationNumb.location.length; i++) {
-      if(window.location.href.indexOf(checkLocationNumb.location[i]) > -1) {
-           console.log("your url contains the string "+checkLocationNumb.location[i]);
-          urlResult = checkLocationNumb.location[i];
-          console.log(urlResult + " Page Url Location");
-          changeNumb();
-      }
-  }
-
-// Vergelijk de waarde van urlResult met locationConfirm als deze waar is verander het telefoonnummer
-
-// if (arrayResult.includes(urlResult)) {
-//     console.log("Succes");
-//     console.log(textResult);
-//     textResult = "Succesvol Tel Nr Veranderd";
-//     console.log(textResult);
-//   } else {console.log("Fail");}
-
-function changeNumb() {
-  if (urlResult == locationConfirm ) {
-    console.log("Succes");
-    console.log(textResult);
-    textResult = "Succesvol Tel Nr Veranderd";
-    console.log(textResult);
-  } else {console.log("Fail");}
-
-  var numbsCollection = document.querySelectorAll(".telChange");
-  for(var i=0; i < numbsCollection.length; i++)
-  {
-      // console.log(numbsCollection[i].className);
-     numbsCollection[i].innerHTML = textResult;
-  }
+function changeTheNumb(property){
+    // Pak alle nummer classes
+    var numbsCollection = document.querySelectorAll(".location-number-module a .fl-button-text");
+    var numbHref = document.querySelectorAll(".location-number-module a.fl-button.fl-scroll-link");
+        // Loop hier doorheen en verander de html hiervan.
+        for(var i=0; i < numbsCollection.length; i++)
+            {
+               numbsCollection[i].innerHTML = `Bel direct ${checkLocationNumb[property]}`;
+               numbHref[i].href = `tel:${checkLocationNumb[property]}`;
+            }
 }
